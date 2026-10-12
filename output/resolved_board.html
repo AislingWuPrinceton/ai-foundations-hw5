@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Customs — Resolved Board</title>
+<style>
+  :root { --ink: #1b2236; --muted: #5b6475; --line: #d9cfbd; --ok: #1f6b3a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--ink); background: #e9dfcc; }
+  header { background: #14213d; color: #f4ecdc; padding: 22px 32px; }
+  header h1 { margin: 0 0 4px; font: 700 24px Georgia, serif; }
+  header p { margin: 0; opacity: .85; font-size: 14px; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 32px 48px; }
+  .summary { background: #fffdf8; border: 1px solid var(--line); border-radius: 10px; padding: 14px 20px; margin-bottom: 24px; }
+  .summary table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  .summary th, .summary td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #efe8da; }
+  .ok { color: var(--ok); font-weight: 700; }
+  figure { margin: 0 0 32px; background: #fffdf8; border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  figure h2 { margin: 0 0 4px; font: 700 20px Georgia, serif; }
+  figure p { margin: 0 0 12px; font-size: 13.5px; color: var(--muted); }
+  figure img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; display: block; }
+  code { font: 12.5px ui-monospace, Menlo, monospace; background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 4px; }
+  nav a { color: #f4ecdc; margin-right: 14px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Resolved board: tickets 101, 102, 103</h1>
+  <p>Real screenshots of the React dashboard (<code>http://localhost:5173</code>) connected to the FastAPI backend on port 8000, captured with headless Chrome after the full run <code>problem9-full-run-2026-10-11</code>. No mockups or generated images.</p>
+  <nav><a href="#s101">101</a><a href="#s102">102</a><a href="#s103">103</a><a href="desk_tickets.html">desk_tickets.html</a><a href="resolved_tickets.json">resolved_tickets.json</a></nav>
+</header>
+<main>
+  <section class="summary" aria-label="Verified final state">
+    <table>
+      <tr><th>Ticket</th><th>Status in the working database</th><th>Final run shown</th><th>Human approvals</th></tr>
+      <tr><td>101 Bulldog tee</td><td class="ok">closed (✓ Resolved)</td><td><code>d11ec0e78a64</code> · completed</td><td>#1 invoice 501 $840.00 · #2 PO 1 $8.00</td></tr>
+      <tr><td>102 Rent due</td><td class="ok">closed (✓ Resolved)</td><td><code>82479e896425</code> · completed</td><td>#3 rent $2,400.00</td></tr>
+      <tr><td>103 Bulk hoodie discount</td><td class="ok">closed (✓ Resolved)</td><td><code>5ea6d4c54189</code> · completed</td><td>#4 PO 2 $264.00</td></tr>
+    </table>
+    <p>Checking: $3,400.00 at the start (after reset) → <b>$160.00</b> at the end, matching <code>cash_accounts</code>. Each screenshot shows the ticket list with all three "✓ Resolved" stamps, the selected ticket's final run, its agents' reports, the $160.00 cash drawer, and the approvals signed on that ticket.</p>
+  </section>
+
+  <figure id="s101">
+    <h2>Ticket 101: Bulldog tee</h2>
+    <p>File: <code>screenshots/ticket-101-resolved.png</code> (1440 × 1250). Status stamp "✓ Resolved"; final run <code>d11ec0e78a64</code>, "Finished · completed"; signed actions #1 ($840.00) and #2 ($8.00).</p>
+    <img src="screenshots/ticket-101-resolved.png" alt="Dashboard with ticket 101 selected, stamped Resolved, final run completed, cash drawer $160.00">
+  </figure>
+
+  <figure id="s102">
+    <h2>Ticket 102: Rent due</h2>
+    <p>File: <code>screenshots/ticket-102-resolved.png</code> (1440 × 1250). Status stamp "✓ Resolved"; final run <code>82479e896425</code>, "Finished · completed"; signed action #3 ($2,400.00).</p>
+    <img src="screenshots/ticket-102-resolved.png" alt="Dashboard with ticket 102 selected, stamped Resolved, final run completed, cash drawer $160.00">
+  </figure>
+
+  <figure id="s103">
+    <h2>Ticket 103: Bulk hoodie discount</h2>
+    <p>File: <code>screenshots/ticket-103-resolved.png</code> (1440 × 1250). Status stamp "✓ Resolved"; final run <code>5ea6d4c54189</code>, "Finished · completed"; signed action #4 ($264.00).</p>
+    <img src="screenshots/ticket-103-resolved.png" alt="Dashboard with ticket 103 selected, stamped Resolved, final run completed, cash drawer $160.00">
+  </figure>
+</main>
+</body>
+</html>

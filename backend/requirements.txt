@@ -1,0 +1,2 @@
+# The project's Python dependencies live in the root requirements.txt.
+-r ../requirements.txt

@@ -1,0 +1,119 @@
+{
+  "description": "Smoke test of the campus-customs MCP server (mcp_server/server.py) through Claude Code's MCP connection configured in the project-root .mcp.json. Each output below is the exact JSON returned by a real MCP tool call, then checked against data/campus_customs_new.db.",
+  "mcp_server": "campus-customs",
+  "config_file": ".mcp.json (AI Foundation project root)",
+  "database": "Homework/5/data/campus_customs_new.db",
+  "tested_on": "2026-10-11",
+  "tools_available": [
+    "check_stock_and_pricing",
+    "get_invoice_with_vendor",
+    "get_rent_due_and_cash"
+  ],
+  "tests": [
+    {
+      "ticket": 103,
+      "prompt": "Using the campus-customs MCP server, check whether we have 20 navy hoodies (SKU CC-HOOD-NAVY) in size M in stock for the Yale AI Club, and show the unit cost, list price, and margin.",
+      "tool": "check_stock_and_pricing",
+      "arguments": {
+        "sku": "CC-HOOD-NAVY",
+        "size": "M",
+        "qty_needed": 20
+      },
+      "output": {
+        "found": true,
+        "sku": "CC-HOOD-NAVY",
+        "name": "Basic Hoodie Big Yale",
+        "size": "M",
+        "location": "Aisle A",
+        "qty_on_hand": 8,
+        "qty_needed": 20,
+        "shortfall": 12,
+        "can_fill_from_stock": false,
+        "pricing": {
+          "unit_cost": 22,
+          "list_price": 58,
+          "margin_per_unit": 36,
+          "margin_pct_of_list": 62.1
+        }
+      },
+      "matches_database": true,
+      "database_check": "inventory row (CC-HOOD-NAVY, M): name 'Basic Hoodie Big Yale', qty 8, location 'Aisle A'; pricing row CC-HOOD-NAVY: unit_cost 22.0, list_price 58.0. Derived values check out: shortfall 20-8=12, margin 58-22=36, 36/58=62.1%."
+    },
+    {
+      "ticket": 101,
+      "prompt": "Using the campus-customs MCP server, look up invoice 501 for the Bulldog tee restock: is it overdue, and which vendor is it from?",
+      "tool": "get_invoice_with_vendor",
+      "arguments": {
+        "invoice_id": 501
+      },
+      "output": {
+        "found": true,
+        "today": "2026-08-31",
+        "invoice": {
+          "id": 501,
+          "vendor_id": 1,
+          "amount": 840,
+          "due_date": "2026-08-28",
+          "status": "open",
+          "description": "Rush reprint CC-TEE-WHITE S",
+          "is_open": true,
+          "is_overdue": true,
+          "days_past_due": 3
+        },
+        "vendor": {
+          "id": 1,
+          "name": "Bulldog Print Co",
+          "specialty": "apparel reprint",
+          "lead_days": 5
+        },
+        "vendor_open_invoices": [
+          {
+            "id": 501,
+            "amount": 840,
+            "due_date": "2026-08-28"
+          }
+        ],
+        "vendor_blocked_from_shipping": true
+      },
+      "matches_database": true,
+      "database_check": "invoices row 501: vendor_id 1, amount 840.0, due_date 2026-08-28, status 'open', description 'Rush reprint CC-TEE-WHITE S'; vendors row 1: 'Bulldog Print Co', 'apparel reprint', lead_days 5; invoice 501 is vendor 1's only invoice; desk.date_today 2026-08-31, so it is 3 days past due."
+    },
+    {
+      "ticket": 102,
+      "prompt": "Using the campus-customs MCP server, check the rent for lease 1: how much is due, when is it due, and can our cash cover it?",
+      "tool": "get_rent_due_and_cash",
+      "arguments": {
+        "lease_id": 1
+      },
+      "output": {
+        "found": true,
+        "today": "2026-08-31",
+        "lease": {
+          "id": 1,
+          "space_name": "Chapel Street shop",
+          "landlord": "Elm City Properties",
+          "monthly_rent": 2400,
+          "next_due": "2026-09-02",
+          "notes": null
+        },
+        "days_until_due": 2,
+        "is_overdue": false,
+        "cash_accounts": [
+          {
+            "name": "checking",
+            "balance": 3400,
+            "date": "2026-08-31",
+            "can_cover_rent": true,
+            "balance_after_rent": 1000
+          }
+        ]
+      },
+      "matches_database": true,
+      "database_check": "leases row 1: 'Chapel Street shop', 'Elm City Properties', monthly_rent 2400.0, next_due 2026-09-02, notes empty; cash_accounts: checking 3400.0 dated 2026-08-31 (only account); desk.date_today 2026-08-31, so 2 days until due and 3400-2400=1000 left."
+    }
+  ],
+  "database_unchanged": {
+    "note": "The server opens the database read-only (sqlite mode=ro), so the tools cannot write. The file's SHA-1 was identical when checked right after the MCP calls and again after this evidence file was written; the file's modified time (Oct 11 11:03) is earlier than these tests.",
+    "sha1": "f447ca6a2766a90f3c1f81215c8f774ab109ea4c"
+  }
+}

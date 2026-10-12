@@ -1,0 +1,162 @@
+{
+  "run_label": "problem9-full-run-2026-10-11",
+  "description": "Final full run of tickets 101-103 from the React dashboard after resetting data/campus_customs_new.db. Statuses and balances below were read from the working database after the last run; agent contributions come from the agents' filed reports and MCP calls in output/audit_trail.json.",
+  "database": "data/campus_customs_new.db",
+  "model": "gpt-6-luna",
+  "owner_decisions": {
+    "note": "Decisions the owner made on 2026-10-11 for questions no shop policy covers.",
+    "ticket_103_discount": "10% off: $52.20 each, $1,044.00 for 20",
+    "ticket_103_restock": "Prepare a purchase for the 12-unit shortfall (approved separately on the dashboard)",
+    "purchase_cash_effect": "An approved purchase records the order only; checking does not change",
+    "closing_rule": "Close once every approved payment/purchase has executed and decisions are recorded; sending the reply stays a human step"
+  },
+  "cash": {
+    "starting_checking": 3400.0,
+    "ending_checking": 160.0,
+    "changes": [
+      {
+        "ticket_id": 101,
+        "id": "payment 1 (action #1)",
+        "amount": -840.0
+      },
+      {
+        "ticket_id": 101,
+        "id": "PO 1 (action #2)",
+        "amount": 0.0
+      },
+      {
+        "ticket_id": 102,
+        "id": "payment 2 (action #3)",
+        "amount": -2400.0
+      },
+      {
+        "ticket_id": 103,
+        "id": "PO 2 (action #4)",
+        "amount": 0.0
+      }
+    ],
+    "reconciles": true
+  },
+  "tickets": [
+    {
+      "id": 101,
+      "final_status": "closed",
+      "verified_from": "tickets.status in data/campus_customs_new.db",
+      "outcome": "Invoice 501 paid ($840) to unblock Bulldog Print Co and a 1-unit restock of CC-TEE-WHITE size S ordered (PO 1, $8). Boss closed the ticket on the third run. The tee is still 0 on hand until the order arrives; the customer reply draft awaits a human to send it.",
+      "runs": [
+        "3e097ebe9f08",
+        "a343070c0238",
+        "d11ec0e78a64"
+      ],
+      "agents": {
+        "boss": "Routed the ticket to Inventory first, then Accounting (run 1) and Customer Service; set pending_approval twice, then closed the ticket once both approved actions had executed.",
+        "inventory": "Confirmed 0 on hand vs 1 needed (Aisle B) and that Bulldog Print Co was blocked by invoice 501; after the payment, prepared restock purchase #2 (1 unit, $8); on run 3 saw #2 executed and prepared no duplicate.",
+        "accounting": "Run 1 only: confirmed invoice 501 ($840, 3 days overdue) and checking $3,400, then prepared invoice payment #1.",
+        "customer_service": "Drafted the customer reply in each run without promising a delivery date; the final draft says a restock order was placed with no confirmed arrival date.",
+        "facilities": "Not involved."
+      },
+      "human_approvals": [
+        {
+          "action_id": 1,
+          "kind": "invoice_payment",
+          "purpose": "Pay overdue invoice 501 (Bulldog Print Co)",
+          "amount": 840.0,
+          "status": "executed",
+          "approved_by": "Aisling Wu",
+          "result": "payment 1; checking 3,400.00 -> 2,560.00; invoice 501 paid",
+          "audit_entries": [
+            154,
+            155
+          ]
+        },
+        {
+          "action_id": 2,
+          "kind": "restock_purchase",
+          "purpose": "Restock 1 x CC-TEE-WHITE size S from vendor 1",
+          "amount": 8.0,
+          "status": "executed",
+          "approved_by": "Aisling Wu",
+          "result": "purchase order PO 1; no cash change",
+          "audit_entries": [
+            207,
+            208
+          ]
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "final_status": "closed",
+      "verified_from": "tickets.status in data/campus_customs_new.db",
+      "outcome": "September rent for lease 1 paid ($2,400, payment 2); checking fell to $160 and next_due moved to 2026-10-02. Boss closed the ticket on the second run without preparing October rent.",
+      "runs": [
+        "6d7821d4a66e",
+        "82479e896425"
+      ],
+      "agents": {
+        "boss": "Routed to Facilities first, then Accounting; set pending_approval, then closed the ticket after action #3 executed. Its closing note wrongly calls the moved due date a 'conflict'.",
+        "facilities": "Confirmed lease 1: $2,400 due 2026-09-02, 2 days after the shop date, matching the ticket note, and that checking covered it.",
+        "accounting": "Prepared rent payment #3 ($2,400, due 2026-09-02) in run 1; in run 2 saw it executed and prepared no duplicate.",
+        "inventory": "Not involved.",
+        "customer_service": "Not involved."
+      },
+      "human_approvals": [
+        {
+          "action_id": 3,
+          "kind": "rent_payment",
+          "purpose": "Lease 1 rent due 2026-09-02",
+          "amount": 2400.0,
+          "status": "executed",
+          "approved_by": "Aisling Wu",
+          "result": "payment 2; checking 2,560.00 -> 160.00; next_due 2026-10-02",
+          "audit_entries": [
+            308,
+            309
+          ]
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "final_status": "closed",
+      "verified_from": "tickets.status in data/campus_customs_new.db",
+      "outcome": "Owner-approved 10% bulk quote recorded ($52.20 each, $1,044 for 20); 12-unit restock ordered (PO 2, $264, no cash change). Boss closed the ticket on the second run. 8 are on hand until the order arrives; the reply draft awaits a human to send it.",
+      "runs": [
+        "96410c8f9636",
+        "5ea6d4c54189"
+      ],
+      "agents": {
+        "boss": "Routed to Inventory first, then Accounting (run 1) and Customer Service; set pending_approval, then closed the ticket after action #4 executed, noting the owner's decision.",
+        "inventory": "Confirmed 8 on hand vs 20 requested (shortfall 12) and that the vendor was no longer blocked; prepared restock purchase #4 (12 units, $264); in run 2 saw it executed.",
+        "accounting": "Run 1 only: quoted the owner's 10% discount with quote_bulk_discount ($52.20 each, $1,044 total, above cost). Needed one output-validation retry for reporting 'completed' while #4 was pending.",
+        "customer_service": "Drafted a reply offering exactly the approved 10% price, 8 available now, and the remaining 12 ordered with no confirmed date.",
+        "facilities": "Not involved."
+      },
+      "human_approvals": [
+        {
+          "action_id": 4,
+          "kind": "restock_purchase",
+          "purpose": "Restock 12 x CC-HOOD-NAVY size M from vendor 1",
+          "amount": 264.0,
+          "status": "executed",
+          "approved_by": "Aisling Wu",
+          "result": "purchase order PO 2; no cash change",
+          "audit_entries": [
+            433,
+            434
+          ]
+        }
+      ],
+      "human_decisions": [
+        "10% bulk discount (sent with both runs via the dashboard; recorded as human_instructions in audit entries 354 and 435)"
+      ]
+    }
+  ],
+  "open_issues": [
+    "Goods for PO 1 and PO 2 have not arrived; inventory still shows 0 size-S tees and 8 size-M hoodies, and no tool records deliveries.",
+    "Both customer reply drafts still need a person to send them; there is no messaging tool.",
+    "Ticket 102's closing note calls the moved due date a 'conflict'. That is inaccurate: the approved payment moved next_due. pending_actions.decided_at uses real time while payments use the shop date.",
+    "The 101 reply drafts use the customer's first name, which the audit redactor did not catch during this run (fixed afterward; existing entries not rewritten).",
+    "The $272 in purchase orders is not reflected in checking (order-only, by the owner's decision); a later vendor bill would exceed the $160 balance."
+  ]
+}

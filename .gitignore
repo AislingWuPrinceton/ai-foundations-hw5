@@ -1,0 +1,24 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / frontend build
+node_modules/
+frontend/dist/
+
+# Temporary and OS files
+.DS_Store
+*.log
+output/.audit_*.json
+*.tmp
+
+# The original handout archive (data/campus_customs.db is the same database, unzipped)
+data.zip
